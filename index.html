@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            font-size: 24px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <ul id="list"></ul>
+    </div>
+    <script>
+        const list = document.getElementById("list");
+        const request = new XMLHttpRequest();
+
+        request.open("GET", "https://reqres.in/api/unknown");
+
+        request.addEventListener("load", function () {
+            const response = JSON.parse(this.responseText).data;
+            response.forEach((el) => {
+                const li = document.createElement("li");
+                li.textContent = el.name;
+                li.style.backgroundColor = el.color;
+                let colorCode = document.createElement("span");
+                colorCode.textContent = `Colore code  ${el.color}`;
+                li.appendChild(colorCode);
+                list.appendChild(li);
+            });
+        });
+
+        request.addEventListener("error", function () {
+            const li = document.createElement("li");
+            li.textContent = "Server eror";
+            list.appendChild(li);
+        });
+        request.send();
+
+    </script>
+</body>
+
+</html>
